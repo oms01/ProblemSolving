@@ -13,17 +13,11 @@ int FindOpposite(int n,int opp){ //n번째 주사위에 대해서 opp의 반대�
 int findNearMax(int n, int a, int b){ //n번째 주사위에서 a,b를 제외한 나머지 원소들 중 가장 큰 값
     int aidx = find(arr[n],arr[n]+6,a)-arr[n];
     int bidx = find(arr[n],arr[n]+6,b)-arr[n];
-    vector<int> v;
     int ret = 0;
     for(int i=0;i<6;i++){
         if(i==aidx || i==bidx) continue;
-        v.push_back(arr[n][i]);
         ret = max(ret,arr[n][i]);
     }
-    // for(auto x:v){
-    //     cout<<x<<' ';
-    // }
-    // cout<<'\n';
     return ret;
 }
 int main(){
@@ -42,11 +36,8 @@ int main(){
         for(int j=0;j<n;j++){
             a = (j==0) ? arr[j][i] : b; // j번째 주사위의 아래
             b = FindOpposite(j,a); //j번째 주사위의 위
-            //cout<<j<<": {"<<a<<","<<b<<"} :: ";
             sum += findNearMax(j,a,b);
-            //cout<<sum<<"\n";
         }
-        //cout<<"------\n";
         ans = max(ans,sum);
     }
     cout<<ans<<'\n';
