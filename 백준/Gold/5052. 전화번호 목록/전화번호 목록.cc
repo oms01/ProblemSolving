@@ -60,7 +60,7 @@ struct Trie{
 
 
 int main() {
-    //ios::sync_with_stdio(0); cin.tie(0);
+    ios::sync_with_stdio(0); cin.tie(0);
     int t;
     cin>>t;
     while(t--){
@@ -68,9 +68,9 @@ int main() {
         cin>>n;
         Trie* root = new Trie;
         for(int i=0;i<n;i++){
-            char num[11];
-            scanf("%s",num);
-            root->insert(num);
+            string str;
+            cin>>str;
+            root->insert(&str[0]);
         }
         if(root->chk()) cout<<"YES\n";
         else cout<<"NO\n";
