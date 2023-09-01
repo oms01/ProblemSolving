@@ -1,7 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
 int arr[100'001];
-int dp[100'001];
 int cnt;
 vector<int> path;
 int main() {
@@ -15,15 +14,11 @@ int main() {
     v.push_back(arr[0]);
     for(int i=1;i<t;i++){
         if(v.back()<arr[i]){
-            
             v.push_back(arr[i]);
-            cnt++;
-            dp[i] = cnt;
         }
         else{
             int idx = lower_bound(v.begin(),v.end(),arr[i])-v.begin();
             v[idx] = arr[i];
-            dp[i] = idx;
         }
     }
 
