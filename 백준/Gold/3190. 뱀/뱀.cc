@@ -9,14 +9,12 @@ int dx[] = {0,1,0,-1};
 int dy[] = {1,0,-1,0};
 int n,k,l;
 int ans = 0;
-int cnt = 0;
 bool gameOver = false;
 int check(int x,int y){ //OOB,뱀칸 : 0, 사과 먹음: 1, 아무것도 없음: 2;
     if((x<=0||x>n||y<=0||y>n) || board[x][y]==1){
         return 0;
     }
     if(board[x][y]==-1){
-        cnt++;
         return 1;
     }
     else{
@@ -28,20 +26,17 @@ void movehead(){//머리 이동
     head.X+=dx[dir]; head.Y+=dy[dir];
     dq.push_front({head.X,head.Y});
     board[head.X][head.Y] = 1;
-    // cout<<"HEAD : "<<head.X<<' '<<head.Y<<'\n';
 }
 void movetail(){//꼬리 이동
     pair<int,int> tail = dq.back();
     board[tail.X][tail.Y] = 0;
     dq.pop_back();
-    // cout<<"TAIL : "<<tail.X<<' '<<tail.Y<<'\n';
 }
 void move(){
     pair<int,int> nxt = dq.front(); //다음칸의 좌표
     nxt.X+=dx[dir]; nxt.Y+=dy[dir];
 
     int tmp = check(nxt.X,nxt.Y); //다음칸 검사
-    // cout<<tmp<<'\n';
     if(tmp==0){ //OOB, 몸과 부딪힘
         ans++;
         gameOver = 1;
@@ -55,14 +50,6 @@ void move(){
         movetail();
     }
     ans++;
-}
-void print(){
-    for(int i=1;i<=n;i++){
-        for(int j=1;j<=n;j++){
-            cout<<board[i][j]<<' ';
-        }
-        cout<<'\n';
-    }
 }
 int main(){
     ios::sync_with_stdio(0); cin.tie(0);
@@ -80,10 +67,7 @@ int main(){
         int x; char c;
         cin>>x>>c;
         for(int j=ans;j<x;j++){
-            // cout<<"time : "<<ans<<"\n";
             move();
-            // print();
-            // cout<<'\n';
             if(gameOver){
                 cout<<ans<<'\n';
                 return 0;
