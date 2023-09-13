@@ -11,7 +11,6 @@ void dijkstra(int st){
     pq.push({d[st],st});
     while(!pq.empty()){
         auto cur = pq.top(); pq.pop();
-        if(d[cur.second] != cur.first) continue;
         for(auto nxt : adj[cur.second]){
             if(d[nxt.second]<=d[cur.second]+nxt.first) continue;
             d[nxt.second] = d[cur.second] + nxt.first;
