@@ -6,7 +6,7 @@ vector<int> solution(vector<string> id_list, vector<string> report, int k) {
     int n = id_list.size();
     vector<int> ans(n);
     map<string,int> m;
-    for(int i=0;i<id_list.size();i++) m[id_list[i]] = i;
+    for(int i=0;i<n;i++) m[id_list[i]] = i;
     
     vector<set<string>> v(n); //idx번 회원이 set에게 신고당함
     for(auto x: report){
