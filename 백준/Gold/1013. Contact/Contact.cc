@@ -25,33 +25,21 @@ int main(){
             // cout<<i;
             if(str[i]=='0'&&str[i+1]=='1') i++;
             else if(str[i]=='1'){
-                if(i>len-4){
-                    ans = 0;
-                    break;
-                }
-                if(str[i+1]!='0'||str[i+2]!='0'){
-                    ans = 0;
-                    break;
+                if(i>len-4||str[i+1]!='0'||str[i+2]!='0'){
+                    ans = 0; break;
                 }
                 while(str[++i]=='0');
-                //str[i]=='1'
                 while(str[++i]=='1' && i<len);
                 if(i==len) break;
-                //str[i-1]=='1'
-                //str[i]=='0'
                 if(str[i+1]=='0'){
                     if(str[i-2]!='1') ans = 0;
                     else i-=2;
                 }
-                else{
-                    i++;
-                }
+                else i++;
             }
             else{
-                ans = 0;
-                break;
+                ans = 0; break;
             }
-
         }
         cout<<(ans ? "YES\n":"NO\n");
     }
