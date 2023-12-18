@@ -10,10 +10,6 @@ int main(){
     cin>>n>>l;
     int a=0,b=0;
     do{
-        if(a!=0 && b!=0 && a/b<=0){
-            cout<<-1<<'\n';
-            return 0;
-        }
         a = n - ((l*(l-1))/2);
         b = l;
         if(a%b==0) break;
