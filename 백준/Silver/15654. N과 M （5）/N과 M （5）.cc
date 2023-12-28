@@ -12,23 +12,14 @@ void func(int k){
 		cout<<"\n";
 		return;
 	}
-	for(auto i : input){
-		if(i==0) continue;
-		if(!isused[i]){
-			arr[k]=i;
-			isused[i]=1;
-			func(k+1);
-			isused[i]=0;
-		}
+	for(int i=0;i<n;i++){
+        int cur = input[i];
+		if(isused[cur]) continue;
+        arr[k]=cur;
+        isused[cur]=1;
+        func(k+1);
+        isused[cur]=0;
 	}
-	// for(int i=1;i<=n;i++){
-	// 	if(!isused[i]){
-	// 		arr[k]=i;
-	// 		isused[i]=1; 
-	// 		func(k+1,i);
-	// 		isused[i]=0;
-	// 	}
-	// }
 }
 int main(){
     ios::sync_with_stdio(0);
