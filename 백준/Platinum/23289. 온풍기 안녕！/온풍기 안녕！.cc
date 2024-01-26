@@ -42,18 +42,8 @@ void in(){
 	return;
 }
 
-void printBoard(){
-	cout<<"--------------\n";
-	for(int i=0;i<n;i++){
-		for(int j=0;j<m;j++){
-			cout<<board[i][j]<<' ';
-		}
-		cout<<'\n';
-	}
-}
-
 bool isMovable(int x,int y,int nx,int ny,int dir){ //1-2. 2-1.
-	//좌우위아래
+	//상하좌우
 	if(x==nx || y==ny){
 		for(int i=0;i<wall.size();i++){
 			pii cur = wall[i].X;
@@ -64,78 +54,34 @@ bool isMovable(int x,int y,int nx,int ny,int dir){ //1-2. 2-1.
 	}
 
 	//대각선
-	pii mid1,mid2;
+	pii mid1, mid2;
+	pii mid;
 	if(!(dir/2)){
 		mid1 = {x+dx[2], y+dy[2]};
 		mid2 = {x+dx[3], y+dy[3]};
+		mid = mid1.X==nx ? mid1 : mid2;
 	}
 	else{
 		mid1 = {x+dx[0], y+dy[0]};
 		mid2 = {x+dx[1], y+dy[1]};
+		mid = mid1.Y==ny ? mid1 : mid2;
 	}
-	if((dir/2)==0 && (mid1.X==nx || mid2.X==nx)){
-		pii mid;
-		if(mid1.X==nx) mid = mid1;
-		else mid = mid2;
-		// cout<<"mid1 : "<<mid.X<<' '<<mid.Y<<' '<<'\n';
-		bool flag1 = 0, flag2 = 0;
-		for(int i=0;i<wall.size();i++){
-			pii cur = wall[i].X;
-			pii nxt = wall[i].Y;
-			if(x==cur.X && y==cur.Y && mid.X==nxt.X && mid.Y==nxt.Y) flag1 = 1;
-			if(nx==cur.X && ny==cur.Y && mid.X==nxt.X && mid.Y==nxt.Y)  flag2 = 1;
-		}
-		// cout<<flag1<<' '<<flag2<<'\n';
-		if(flag1 || flag2){ //둘중하나라도 true면 이동 X
-			return 0;
-		}
-		else{
-			return 1;
-		}
+	for(int i=0;i<wall.size();i++){
+		pii cur = wall[i].X;
+		pii nxt = wall[i].Y;
+		if(x==cur.X && y==cur.Y && mid.X==nxt.X && mid.Y==nxt.Y) return 0;
+		if(nx==cur.X && ny==cur.Y && mid.X==nxt.X && mid.Y==nxt.Y)  return 0;
 	}
-	if((dir/2)==1 && (mid1.Y==ny || mid2.Y==ny)){
-		pii mid;
-		if(mid1.Y==ny) mid = mid1;
-		else mid = mid2;
-		// cout<<"mid2 : "<<mid.X<<' '<<mid.Y<<' '<<'\n';
-		bool flag1 = 0, flag2 = 0;
-		for(int i=0;i<wall.size();i++){
-			pii cur = wall[i].X;
-			pii nxt = wall[i].Y;
-			if(x==cur.X && y==cur.Y && mid.X==nxt.X && mid.Y==nxt.Y) flag1 = 1;
-			if(nx==cur.X && ny==cur.Y && mid.X==nxt.X && mid.Y==nxt.Y)  flag2 = 1;
-		}
-		// cout<<flag1<<' '<<flag2<<'\n';
-		if(flag1 || flag2){ //둘중하나라도 true면 이동 X
-			return 0;
-		}
-		else{
-			return 1;
-		}
-	}
-	// cout<<"ret1: "<<ret1<<" / "<<"ret2: "<<ret2<<'\n';
-	// cout<<"return : "<<(ret1||ret2)<<'\n';
-	// cout<<"{"<<x<<','<<y<<"}->{"<<nx<<','<<ny<<"}\n";
 	return 1;
-
 }
 
 void func(int x,int y,int val,int dir){ //1-1.
 	tmp[x][y] = val;
-
 	for(int i=0;i<3;i++){
 		int nx = x + d[dir][i].X;
 		int ny = y + d[dir][i].Y;
 		if(nx<0||nx>=n||ny<0||ny>=m) continue;
-		if(val==1) continue;
-		// cout<<"{"<<x<<','<<y<<"}->{"<<nx<<','<<ny<<"}\n";
-		bool flag = isMovable(x,y,nx,ny,dir);
-		// cout<<"flag :: "<<flag<<'\n';
-		if(!flag){
-			// cout<<"{"<<x<<','<<y<<"}->{"<<nx<<','<<ny<<"}\n";
-			continue;
-		}
-
+		if(val==1 || !isMovable(x,y,nx,ny,dir)) continue;
 		func(nx,ny,val-1,dir);
 	}
 
@@ -201,15 +147,10 @@ bool check(){ //5.
 
 int main(){
 	ios::sync_with_stdio(0); cin.tie(0);
-
 	//입력
 	in();
-
 	do{
-		if(cnt>100){
-			break;
-		}
-		// printBoard();
+		if(cnt>100) break;
 		//1. 집에 있는 모든 온풍기에서 바람이 한 번 나옴
 		for(int i=0;i<n;i++){
 			for(int j=0;j<m;j++){
@@ -217,22 +158,18 @@ int main(){
 				flash(i,j,input[i][j]-1);
 			}
 		}
-		// printBoard();
 
 		//2. 온도가 조절됨
 		tempControl();
-		// printBoard();
 
 		//3. 온도가 1 이상인 가장 바깥쪽 칸의 온도가 1씩 감소
 		tempMinus();
-		// printBoard();
 
 		//4. 초콜릿을 하나 먹는다.
 		cnt++;
-		// cout<<"@@@@@@@@@@@@\n";
+
 		//5. 조사하는 모든 칸의 온도가 K이상이 되었는지 검사.
 		//모든 칸의 온도가 K이상이면 테스트를 중단하고, 아니면 1부터 다시 시작한다.
 	}while(!check());
-	// printBoard();
 	cout<<cnt<<'\n';
 }
