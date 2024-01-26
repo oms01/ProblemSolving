@@ -54,10 +54,9 @@ bool isMovable(int x,int y,int nx,int ny,int dir){ //1-2. 2-1.
 	}
 
 	//대각선
-	pii mid1, mid2;
-	pii mid;
+	pii mid1, mid2,mid;
 	if(!(dir/2)){
-		mid1 = {x+dx[2], y+dy[2]};
+		mid1 = {x+dx[2], y+dy[2]}; 
 		mid2 = {x+dx[3], y+dy[3]};
 		mid = mid1.X==nx ? mid1 : mid2;
 	}
