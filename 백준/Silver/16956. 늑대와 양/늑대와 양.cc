@@ -13,11 +13,7 @@ bool func(int x,int y){
         int nx = x + dx[dir];
         int ny = y + dy[dir];
         if(nx<0||nx>=n||ny<0||ny>=m) continue;
-        if(board[nx][ny]=='S') continue;
-        if(board[nx][ny]=='W'){
-            return 0;
-        }
-        board[nx][ny] = 'D';
+        if(board[nx][ny]=='W') return 0;
     }
     return 1;
 }
@@ -42,7 +38,8 @@ int main(){
     cout<<1<<'\n';
     for(int i=0;i<n;i++){
         for(int j=0;j<m;j++){
-            cout<<board[i][j];
+            if(board[i][j]=='.') cout<<"D";
+            else cout<<board[i][j];
         }
         cout<<'\n';
     }
