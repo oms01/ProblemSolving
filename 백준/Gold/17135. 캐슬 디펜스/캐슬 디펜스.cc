@@ -11,14 +11,6 @@ int n,m,d;
 int ans;
 int input[20][20];
 int board[20][20];
-void print(){
-    for(int i=0;i<n;i++){
-        for(int j=0;j<m;j++){
-            cout<<board[i][j]<<' ';
-        }
-        cout<<'\n';
-    }
-}
 pii bfs(int x, int y){
     bool vis[20][20];
     memset(vis,0,sizeof(vis));
@@ -82,34 +74,19 @@ int main(){
         rep(0,m){
             if(p[i]) archer.push_back({n,i});
         }
-        // for(auto x: archer){
-        //     cout<<x.Y<<' ';
-        // }
-        // cout<<'\n';
-
 
         for(int i=0;i<n;i++){
-            // print();
-            // cout<<'\n';
             //2. 적 선정
             vector<pii> enemy = select(archer);
-
             //3. 적 공격
             for(auto cur : enemy){
-                if(cur.X==-1) continue;
-                if(!board[cur.X][cur.Y]) continue;
+                if(cur.X==-1 || !board[cur.X][cur.Y]) continue;
                 board[cur.X][cur.Y] = 0;
-                // cout<<cur.X<<' '<<cur.Y<<'\n';
                 cnt++;
             }
-
             //3. 적 이동
             move();
         }
-        // cout<<cnt<<'\n';
-        // cout<<'\n';
-
-
         ans = max(ans,cnt);
 
     }while(next_permutation(p.begin(),p.end()));
