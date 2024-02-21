@@ -1,116 +1,77 @@
 #include<bits/stdc++.h>
 using namespace std;
-#define X first 
+#define X first
 #define Y second
-int n,m,t;
-vector<pair<int,int>> black;
-vector<pair<int,int>> white;
+#define rep(i,x,y) for(int i=x;i<y;i++)
+typedef long long ll;
+typedef pair<int,int> pii;
+
+
+int dx[] = {-1,0,1,1};
+int dy[] = {1,1,1,0};
 int board[20][20];
-int vis[20][20];
-vector<pair<int,int>> ans(2); //0:검정, 1:하양
-bool horizontal(int x,int y){ //가로
-	int cnt = 1;
-	for(int i=1;i<=19;i++){
-		if(y+i>19) break;
-		if(vis[x][y+i] || board[x][y+i]!=board[x][y]) break;
-		cnt++;
-		vis[x][y+i]=1;
-	}
-	if(cnt==5) ans[board[x][y]-1] = {x,y};
-	return cnt==5;
+bool vis[20][20];
+pii bwin = {-1,-1};
+pii wwin = {-1,-1};
+vector<pii> black,white;
+bool OOB(int x,int y){
+    return (x<0||x>=19||y<0||y>=19);
 }
-bool vertical(int x,int y){ //세로 
-	int cnt = 1;
-	for(int i=1;i<=19;i++){
-		if(x+i>19) break;
-		if(vis[x+i][y] || board[x+i][y]!=board[x][y]) break;
-		cnt++;
-		vis[x+i][y]=1;
-	}
-	if(cnt==5) ans[board[x][y]-1] = {x,y};
-	return cnt==5;
+void dfs(int x,int y, int color, int dir, int cnt){
+    int nx = x + dx[dir];
+    int ny = y + dy[dir];
+    if(cnt==5){
+        if(!OOB(nx,ny)&&board[nx][ny]==color){
+            return;
+        }
+        x -= dx[dir]*4;
+        y -= dy[dir]*4;
+
+        if(!OOB(x-dx[dir],y-dy[dir])&&board[x-dx[dir]][y-dy[dir]]==color){
+            return;
+        }
+
+        if(color==1) bwin = {x,y};
+        if(color==2) wwin = {x,y};
+        return;
+    }
+    if(OOB(nx,ny)) return;
+    if(board[nx][ny]!=color) return;
+    dfs(nx,ny,color,dir,cnt+1);
 }
-bool diagonal1(int x,int y){ //대각선
-	int cnt = 1;
-	for(int i=1;i<=19;i++){
-		if(x+i>19 || y+i>19) break;
-		if(vis[x+i][y+i] || board[x+i][y+i]!=board[x][y]) break;
-		cnt++;
-		vis[x+i][y+i]=1;
-	}
-	if(cnt==5) ans[board[x][y]-1] = {x,y};
-	return cnt==5;
-}
-bool diagonal2(int x,int y){ //대각선
-	int cnt = 1;
-	//cout<<x<<" "<<y<<"\n";
-	for(int i=1;i<=19;i++){
-		//cout<<x-i<<" "<<y+i<<"\n";
-		if(x-i<=0 || y+i>19) break;
-		if(vis[x-i][y+i] || board[x-i][y+i]!=board[x][y]) break;
-		cnt++;
-		vis[x-i][y+i]=1;
-	}
-	//cout<<cnt<<'\n';
-	if(cnt==5) ans[board[x][y]-1] = {x,y};
-	return cnt==5;
-}
-bool chk(const vector<pair<int, int>>& v){
-	bool flag = 0;
-	memset(vis,0,sizeof(vis));
-	for(int i=0;i<v.size();i++){
-		int x = v[i].X, y = v[i].Y;
-		if(vis[x][y]) continue;
-		flag |= horizontal(x,y);
-	}
-	memset(vis,0,sizeof(vis));
-	for(int i=0;i<v.size();i++){
-		int x = v[i].X, y = v[i].Y;
-		if(vis[x][y]) continue;
-		flag |= vertical(x,y);
-	}
-	memset(vis,0,sizeof(vis));
-	for(int i=0;i<v.size();i++){
-		int x = v[i].X, y = v[i].Y;
-		if(vis[x][y]) continue;
-		flag |= diagonal1(x,y);
-	}
-	memset(vis,0,sizeof(vis));
-	for(int i=0;i<v.size();i++){
-		int x = v[i].X, y = v[i].Y;
-		if(vis[x][y]) continue;
-		flag |= diagonal2(x,y);
-	}
-	return flag;
-}
-bool compare(pair<int,int> a, pair<int,int> b){
-	if(a.second == b.second) return a.first < b.first;
-	return a.second < b.second;
-}
-int main() {
+int main(){
 	ios::sync_with_stdio(0); cin.tie(0);
-	for(int i=1;i<=19;i++){
-		for(int j=1;j<=19;j++){
-			cin>>board[i][j];
-			if(board[i][j]==1) black.push_back({i,j});
-			if(board[i][j]==2) white.push_back({i,j});
-		}
-	}
-	sort(black.begin(),black.end(),compare);
-	sort(white.begin(),white.end(),compare);
-	bool bwin = chk(black);
-	bool wwin = chk(white);
+    rep(i,0,19){
+        rep(j,0,19){
+            cin>>board[i][j];
+            if(board[i][j]==1) black.push_back({i,j});
+            if(board[i][j]==2) white.push_back({i,j});
+        }
+    }
+    for(auto cur: black){
+        rep(dir,0,4){
+            if(bwin.X!=-1);
+            dfs(cur.X,cur.Y,1,dir,1);
+        }
+    };
 
-	if(bwin==0 &&wwin==0) cout<<0<<'\n';
-	else if(bwin){
-		cout<<1<<'\n';
-		cout<<ans[0].first<<" "<<ans[0].second<<'\n';
-	}
-	else if(wwin){
-		cout<<2<<'\n';
-		cout<<ans[1].first<<" "<<ans[1].second<<'\n';
-	}
+    for(auto cur: white){
+        rep(dir,0,4){
+            if(wwin.X!=-1);
+            dfs(cur.X,cur.Y,2,dir,1);
+        }
+    };
+
+    if(bwin.X==-1 && wwin.X==-1){
+        cout<<0<<'\n';
+    }
+    else if(bwin.X!=-1){
+        cout<<1<<'\n';
+        cout<<bwin.X+1<<' '<<bwin.Y+1<<'\n';
+    }
+    else if(wwin.X!=-1){
+        cout<<2<<'\n';
+        cout<<wwin.X+1<<' '<<wwin.Y+1<<'\n';
+    }
+
 }
-/*
-
-*/
