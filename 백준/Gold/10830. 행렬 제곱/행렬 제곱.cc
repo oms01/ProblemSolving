@@ -13,8 +13,8 @@ ll n,m;
 map<ll,vector<vector<int>>> ma;
 vector<vector<int>> cal(ll a, ll b){
     vector<vector<int>> ret(n,vector<int>(n));
-    vector<vector<int>> x = ma[a];
-    vector<vector<int>> y = ma[b];
+    auto x = ma[a];
+    auto y = ma[b];
     rep(i,0,n){
         rep(j,0,n){
             rep(k,0,n){
@@ -23,41 +23,31 @@ vector<vector<int>> cal(ll a, ll b){
             ret[i][j]%=1000;
         }
     }
-    // cout<<a+b<<'\n';
-    ma[a+b] = ret;
-    return ret;
+    return ma[a+b] = ret;
 }
 vector<vector<int>> func(ll t){
     auto iter = ma.find(t);
-    if(iter!=ma.end()){
-        return iter->second;
-    }
+    if(iter!=ma.end()) return iter->second;
+
     auto ret = func(t/2);
     cal(t/2,t/2);
-    if(t%2){
-        return cal(t-1,1);
-    }
-    else{
-        return ret;
-    }
-
-
+    return (t%2) ? cal(t-1,1) : ret;
 }
 int main(){
     ios::sync_with_stdio(0); cin.tie(0);
     cin>>n>>m;
     vector<vector<int>> a(n,vector<int>(n));
-    rep(i,0,n) rep(j,0,n) cin>>a[i][j];
+    rep(i,0,n) rep(j,0,n){
+        cin>>a[i][j];
+        a[i][j]%=1000;
+    }
 
-    rep(i,0,n) rep(j,0,n) a[i][j]%=1000;
     ma[1] = a;
 
     func(m);
     auto ans = ma[m];
     rep(i,0,n){
-        rep(j,0,n){
-            cout<<ans[i][j]<<' ';
-        }
+        rep(j,0,n) cout<<ans[i][j]<<' ';
         cout<<'\n';
     }
 
