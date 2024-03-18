@@ -7,12 +7,8 @@ vector<int> solution(vector<int> v) {
     reverse(v.begin(),v.end());
     for(int i=0;i<v.size();i++){
         while(!s.empty() && s.top() <= v[i]) s.pop();
-        
-        if(s.empty()) ans.push_back(-1);
-        else ans.push_back(s.top());
-        
+        ans.push_back((s.empty() ? -1 : s.top()));
         s.push(v[i]);
-        
     }
     reverse(ans.begin(),ans.end());
     return ans;
