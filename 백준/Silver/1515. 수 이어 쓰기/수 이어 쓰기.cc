@@ -17,7 +17,7 @@ int main(){
     int idx = 0;
     while(++ans){
         string tmp = to_string(ans);
-        for(int i=0;i<tmp.length();i++){
+        rep(i,0,tmp.length()){
             if(str[idx]==tmp[i]) idx++;
             if(idx==str.length()){
                 cout<<ans<<'\n';
