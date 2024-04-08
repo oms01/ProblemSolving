@@ -17,17 +17,16 @@ int main(){
     rep(i,0,n){
         int s,e,x;
         cin>>x>>s>>e;
-        v.push_back({s,e});
+        v.push_back({s,1});
+        v.push_back({e,0});
     }
     sort(v.begin(),v.end());
-    priority_queue<int, vector<int>, greater<int>> pq;
+    int cnt = 0;
     int ans = 0;
-    rep(i,0,n){
-        while(!pq.empty() && pq.top() <= v[i].X) pq.pop();
-        pq.push(v[i].Y);
-        ans = max(ans,(int)pq.size());
+    rep(i,0,v.size()){
+        if(v[i].Y==1) ans = max(ans,++cnt);
+        else cnt--;
     }
     cout<<ans<<'\n';
-
 }
 
