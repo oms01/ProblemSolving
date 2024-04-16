@@ -25,23 +25,21 @@ int main(){
     while(chk(v)){
         
         bool tmp = 0;
-        for(int i=0;i<n;i++){
+        rep(i,0,n){
             tmp+=v[i]%2;
         }
         if(tmp==0){
-            for(int i=0;i<n;i++){
-                v[i]/=2;
-            }
+            rep(i,0,n) v[i]/=2;
+            ans++;
         }
         else{
-            for(int i=0;i<n;i++){
+            rep(i,0,n){
                 if(v[i]%2){
                     v[i]--;
-                    break;
+                    ans++;
                 } 
             }
         }
-        ans++;
     }
     cout<<ans<<'\n';
 
