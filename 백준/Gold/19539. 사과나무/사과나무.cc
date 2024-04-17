@@ -12,16 +12,12 @@ int dy[] = {1,-1,0,0};
 int main(){
     ios::sync_with_stdio(0); cin.tie(0);
     int n; cin>>n;
-    vector<int> v(n);
-    rep(i,0,n) cin>>v[i];
-
     ll sum = 0;
-    ll cnt = 0 ;
+    ll cnt = 0;
     rep(i,0,n){
-        sum+=v[i];
-        cnt+=v[i]/2;
-    }   
-    if(sum%3 || cnt<sum/3) cout<<"NO\n";
-    else cout<<"YES\n";
-
+        int val; cin>>val;
+        sum+=val;
+        cnt+=val/2;
+    }
+    cout<<((sum%3 || cnt<sum/3) ? "NO\n": "YES\n" );
 }
