@@ -14,25 +14,25 @@ int dy[] = {1,-1,0,0};
 int main(){
     ios::sync_with_stdio(0); cin.tie(0);
     int n; cin>>n;
-    vector<int> v(n);
-    rep(i,0,n) cin>>v[i];
-
+    
     int mx = -2e9;
     int mn = 2e9;
     int ans = 0;
     rep(i,0,n){
-        if(mn > v[i]){
-            mn = v[i];
+        int x; cin>>x;
+        if(mn > x){
+            mn = x;
             mx = -2e9;
         }
-        else if(mx < v[i]){
-            mx = v[i];
+        else if(mx < x){
+            mx = x;
         }
 
         if(mn!=2e9 && mx!=-2e9){
             ans = max(ans, mx-mn);
         }
     }
+
     cout<<ans<<'\n';
 
 }
