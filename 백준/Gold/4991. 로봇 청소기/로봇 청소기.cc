@@ -78,5 +78,4 @@ int main(){
         if(ans>=1e9||ans<0) cout<<-1<<'\n';
         else cout<<ans<<'\n';
     }
-
 }
