@@ -45,7 +45,6 @@ void f(ll vis, int cur, int val){
         ans = min(ans,val);
         return;
     }
-
     for(int i=0;i<ma.size();i++){
         if(vis&(1<<i)) continue;
         vis = vis | (1<<i);
@@ -59,12 +58,7 @@ int main(){
     while(cin>>m>>n){
         if(n==0&&m==0) break;
         ma.clear();
-        // memset(dist,0,sizeof(dist));
-        for(int i=0;i<21;i++){
-            for(int j=0;j<21;j++){
-                dist[i][j] = 2e9;
-            }
-        }
+        rep(i,0,21) rep(j,0,21) dist[i][j] = 2e9;
         ans = 2e9;
         pii st;
         rep(i,0,n){
@@ -77,11 +71,10 @@ int main(){
         ma[st] = ma.size();
         for(auto cur : ma) func(cur.X);
 
-
-        //ma[st]에서 시작
         ll vis = 0;
         vis = vis | (1<<ma[st]);
         f(vis, ma[st], 0);
+
         if(ans>=1e9||ans<0) cout<<-1<<'\n';
         else cout<<ans<<'\n';
     }
