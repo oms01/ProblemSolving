@@ -28,30 +28,27 @@ int main() {
     }
     queue<int> q;
     int tmp = 0;
-    vector<int> order(n+1,0);
+    vector<int> ans;
     rep(i,1,n+1){
         if(!deg[i]){
             q.push(i);
-            order[i] = ++tmp;
+            ans.push_back(i);
         }
     }
 
     while(!q.empty()){
         auto cur = q.front(); q.pop();
         for(auto nxt : adj[cur]){
-            if(--deg[nxt] || order[nxt]) continue;
-            order[nxt] = ++tmp;
+            if(--deg[nxt]) continue;
+            ans.push_back(nxt);
             q.push(nxt);
         }
     }
 
-    if(tmp!=n){
+    if(ans.size()!=n){
         cout<<0<<'\n';
         return 0;
     }
-    vector<pii> v(n);
-    rep(i,0,n) v[i] = {order[i+1], i+1};
-    sort(all(v));
-    rep(i,0,n) cout<<v[i].Y<<'\n';
+    rep(i,0,n) cout<<ans[i]<<'\n';
 
 }
