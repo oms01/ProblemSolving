@@ -20,16 +20,18 @@ int main(){
     sort(all(v));
 
     int ans = 0;
-    vector<int> vis(n);
-    rep(i,0,n){
-        if(vis[i]) continue;
-        rep(j,i+1,n){
-            if(vis[j]) continue;
-            if(v[i]+v[j]==m){
-                ans++;
-                v[i]=1; v[j]=1;
-            }
-        }   
+    int st=0, en=n-1;
+    while(st<en){
+        if(v[st]+v[en] < m){
+            st++;
+        }
+        else if(v[st]+v[en] > m){
+            en--;
+        }
+        else{
+            ans++;
+            st++; en--;
+        }
     }
     cout<<ans<<'\n';
     
