@@ -8,26 +8,24 @@ using namespace std;
 typedef long long ll;
 typedef pair<int,int> pii;
 typedef pair<ll,ll> pll;
+typedef tuple<int,int,int> tiii;
 int dx[] = {0,0,1,-1};
 int dy[] = {1,-1,0,0};
-/*------------------------------*/
-
-pii parent[1'001][1'001];
-pii Find(int x,int y){
-    if(parent[x][y]==make_pair(x,y)) return {x,y};
-    return parent[x][y] = Find(parent[x][y].X,parent[x][y].Y);
+/*----------------------*/
+const int MX = 1'001;
+int p[MX*MX];
+int Find(int x){
+    if(x==p[x]) return x;
+    return p[x] = Find(p[x]);
 }
-void Union(pii x, pii y){ // x to y
-    pii a = Find(x.X,x.Y);
-    pii b = Find(y.X,y.Y);
-    parent[a.X][a.Y] = {b.X,b.Y};
+void Union(int a,int b){
+    a = Find(a); b = Find(b);
+    p[a] = b;
 }
 string board[1'001];
 int main(){
     ios::sync_with_stdio(0); cin.tie(0);
-    rep(i,0,1001) rep(j,0,1001){
-        parent[i][j] = {i,j};
-    }
+    rep(i,0,MX*MX) p[i]=i;
     map<char,int> ma;
     ma['S']=2; ma['N']=3;
     ma['E']=0; ma['W']=1;
@@ -39,13 +37,11 @@ int main(){
         int nx = i + dx[ma[board[i][j]]];
         int ny = j + dy[ma[board[i][j]]];
         if(nx<0||nx>=n||ny<0||ny>=m) continue;
-        Union({i,j},{nx,ny});
+        Union(i*m+j, nx*m+ny);
     }
     
     int ans = 0;
-    rep(i,0,n) rep(j,0,m){
-        ans+=(parent[i][j]==make_pair(i,j));
-    }
+    rep(i,0,n*m) ans+=(p[i]==i);
     cout<<ans<<'\n';
 
 }
