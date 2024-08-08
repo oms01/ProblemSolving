@@ -21,13 +21,9 @@ int main(){
 
     reverse(all(v));
 
-    pll cur = {1,v[0]};
-    rep(i,1,n){
-        cur.X = cur.Y*v[i]+cur.X;
-        ll gcd = __gcd(cur.X, cur.Y);
-        cur = {cur.Y/gcd, cur.X/gcd};
+    pll cur = {0,1};
+    rep(i,0,n){
+        cur = {cur.Y, cur.Y*v[i]+cur.X};
     }
-
     cout<<cur.Y<<'/'<<cur.X<<'\n';
-
 }
