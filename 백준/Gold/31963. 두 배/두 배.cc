@@ -18,16 +18,14 @@ int main(){
     ll n; cin>>n;
     vector<long double> v(n);
     rep(i,0,n){
-        int x; cin>>x;
-        v[i] = log2(x);
+        cin>>v[i];
     }
     ll cnt = 0;
 
+    ll tmp = 0;
     rep(i,0,n-1){
-        if(v[i]<=v[i+1]) continue;
-        int tmp = ceil(v[i]-v[i+1]);
+        tmp = max(ceil(log2(v[i]/v[i+1])+tmp),(long double)0);
         cnt += tmp;
-        v[i+1] += tmp;
     }
     cout<<cnt<<'\n';
 }
