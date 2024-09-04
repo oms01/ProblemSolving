@@ -20,6 +20,7 @@ int f(pair<int,int> s, pair<int,int> t){
             int ny = cur.Y + dy[dir];
             if(nx<0||nx>=n||ny<0||ny>=m) continue;
             if(vis[nx][ny]||board[nx][ny]=='X') continue;
+            
             vis[nx][ny] = vis[cur.X][cur.Y]+1;
             q.push({nx,ny});
             
@@ -49,8 +50,9 @@ int solution(vector<string> maps) {
     
     int a = f(st,lever);
     int b = f(en,lever);
+    
     if(a==-1||b==-1) return -1;
-    else return a+b;
+    return a+b;
     
     
     
