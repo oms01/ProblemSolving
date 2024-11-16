@@ -30,7 +30,7 @@ int main() {
     int q; cin>>q;
     while(q--){
         int n,x; cin>>n>>x;
-        rep(i,0,20){
+        for(int i=20;i>=0;i--){
             if(n&(1<<i)){
                 x = dp[x][i];
             }
