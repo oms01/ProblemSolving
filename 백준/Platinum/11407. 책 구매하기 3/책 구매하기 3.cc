@@ -13,7 +13,10 @@ int dx[] = {0,0,1,-1};
 int dy[] = {1,-1,0,0};
 /*----------------------*/
 
-const int MX = 1'000;
+const int MX = 1'002;
+const int ST = MX-2;
+const int EN = MX-1;
+const int MID = (MX-2)/2;
 vector<int> adj[MX];
 int c[MX][MX], f[MX][MX], d[MX][MX]; //용량, 흐름, 비용
 void maxflow(int st, int en){
@@ -69,41 +72,34 @@ int main(){
     ios::sync_with_stdio(0); cin.tie(0);
 
     int n,m; cin>>n>>m;
-    int st = 900;
-    int en = 901;
 
     //사람 -> 종료점 간선 설정
-    for(int i=1;i<=n;i++){
-        cin>>c[400+i][en];
-        adj[400+i].push_back(en);
-        adj[en].push_back(400+i);
+    rep(i,MID,MID+n){
+        cin>>c[i][EN];
+        adj[i].push_back(EN);
+        adj[EN].push_back(i);
     }
 
     //시작점 -> 서점 간선 설정
-    for(int i=1;i<=m;i++){
-        cin>>c[st][i];
-        adj[st].push_back(i);
-        adj[i].push_back(st);
+    rep(i,0,m){
+        cin>>c[ST][i];
+        adj[ST].push_back(i);
+        adj[i].push_back(ST);
     }
 
-    for(int i=1;i<=m;i++){
-        for(int j=1;j<=n;j++){
-            adj[i].push_back(400+j);
-            adj[400+j].push_back(i);
-        }
+    rep(i,0,m) rep(j,MID,MID+n){
+        adj[i].push_back(j);
+        adj[j].push_back(i);
     }
 
-    for(int i=1;i<=m;i++){
-        for(int j=1;j<=n;j++){
-            cin>>c[i][400+j];
-        }
-    }
-    for(int i=1;i<=m;i++){
-        for(int j=1;j<=n;j++){
-            cin>>d[i][400+j];
-            d[400+j][i] = -d[i][400+j];
-        }
+    rep(i,0,m) rep(j,MID,MID+n){
+        cin>>c[i][j];
     }
 
-    maxflow(st,en);
+    rep(i,0,m) rep(j,MID,MID+n){
+        cin>>d[i][j];
+        d[j][i] = -d[i][j];
+    }
+
+    maxflow(ST,EN);
 }
