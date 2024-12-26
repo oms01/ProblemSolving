@@ -18,24 +18,18 @@ int main(){
     
     ll n,k,t; cin>>n>>k>>t;
     vector<ll> v(n);
-    rep(i,0,n) cin>>v[i];
-    sort(all(v));
-
-    ll st = 0;
-    ll en = v.size()-1;
-    ll cnt = 0;
-
-    while(v[en]<k && st<en){
-        ll move = min(k-v[en],v[st]);
-        cnt+=move;
-        v[en] += move;
-        v[st] -= move;
-        while(v[st]==0 && st<en) st++;
-        if(v[en]==k){
-            v[en--] = 0;
-        }
+    ll sum = 0;
+    rep(i,0,n){
+        cin>>v[i];
+        sum+=v[i];
     }
 
-    bool flag = (cnt>t) | *max_element(all(v));
-    cout<<(flag ? "NO":"YES");
+    ll cnt = 0;
+    sort(rall(v));
+    rep(i,0,sum/k) cnt+=k-v[i];
+
+    bool flag = (sum%k) | (cnt>t);
+    cout<<(flag?"NO":"YES");
+
+    
 }
