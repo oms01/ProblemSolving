@@ -19,11 +19,8 @@ unordered_map<ll,ll> m;
 ll n,p,q,x,y;
 ll f(ll c){
     if(c<=0) return 1;
-    ll a = (m.count(c/p-x) ? m[c/p-x] : f(c/p-x));
-    m[c/p-x] = a;
-    ll b = (m.count(c/q-y) ? m[c/q-y] : f(c/q-y));
-    m[c/q-y] = b;
-    return a+b;
+    if(m.count(c)) return m[c];
+    return m[c] = f(c/p-x) + f(c/q-y);
 }
 int main(){
     ios::sync_with_stdio(0); cin.tie(0);
