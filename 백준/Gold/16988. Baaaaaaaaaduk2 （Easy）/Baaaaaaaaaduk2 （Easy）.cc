@@ -20,22 +20,6 @@ int board[30][30];
 int vis[30][30];
 vector<pii> emp, black;
 
-void printVis(){
-    rep(i,0,n){
-        rep(j,0,m) cout<<vis[i][j]<<' ';
-        cout<<'\n';
-    }
-    cout<<'\n';
-}
-
-void printBoard(){
-    rep(i,0,n){
-        rep(j,0,m) cout<<board[i][j]<<' ';
-        cout<<'\n';
-    }
-    cout<<'\n';
-}
-
 bool nearChk(pii cur, int target){
     for(int dir=0;dir<4;dir++){
         int nx = cur.X + dx[dir];
@@ -61,8 +45,7 @@ int bfs(pii loc){
             int nx = cur.X + dx[dir];
             int ny = cur.Y + dy[dir];
             if(nx<0||nx>=n||ny<0||ny>=m) continue;
-            if(board[nx][ny]!=2) continue;
-            if(vis[nx][ny]) continue;
+            if(board[nx][ny]!=2 || vis[nx][ny]) continue;
             q.push({nx,ny});
             tmp.push_back({nx,ny});
             vis[nx][ny] = 1;
@@ -70,9 +53,7 @@ int bfs(pii loc){
         }
     }
     for(auto cur: tmp){
-        if(nearChk(cur,0)){
-            return 0;
-        }
+        if(nearChk(cur,0)) return 0;
     }
     return cnt;
 }
@@ -80,27 +61,11 @@ int cnt(){
     rep(i,0,n) rep(j,0,m) vis[i][j] = 0;
     int ret = 0;
 
-    // cout<<black.size()<<'\n';
     for(auto cur: black){
         if(vis[cur.X][cur.Y]) continue;
         int tmp = bfs(cur);
         ret += tmp;
     }
-
-    // printBoard();
-    // printVis();
-    // cout<<'\n';
-    
-
-    return ret;
-
-}
-int simulation(pii a, pii b){
-    board[a.X][a.Y] = 1;
-    board[b.X][b.Y] = 1;
-    int ret = cnt();
-    board[a.X][a.Y] = 0;
-    board[b.X][b.Y] = 0;
     return ret;
 }
 
@@ -113,13 +78,17 @@ int main(){
         if(board[i][j]==0) emp.push_back({i,j});
         if(board[i][j]==2) black.push_back({i,j});
     }
+
     int ans = 0;
     for(auto a: emp) for(auto b: emp){
         if(a==b) continue;
-        int ret = simulation(a,b);
+
+        board[a.X][a.Y] = 1; board[b.X][b.Y] = 1;
+        int ret = cnt();
+        board[a.X][a.Y] = 0; board[b.X][b.Y] = 0;
+
         ans = max(ans,ret);
     }
 
     cout<<ans<<'\n';
-
 }
