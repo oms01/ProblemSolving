@@ -25,16 +25,12 @@ int main(){
 
     int ans = 0;
     REP(h,1,n){
-
-        vector<int> tmp;
+        int tmp = -1;
         for(int i=0;i<m;i++){
             if(v[i]>=h){
-                tmp.push_back(i);
+                if(tmp!=-1) ans += i - tmp - 1;
+                tmp = i;
             }
-        }
-        if(tmp.size()<=1) continue;
-        rep(i,0,tmp.size()-1){
-            ans += tmp[i+1] - tmp[i] -1;
         }
     }
     cout<<ans<<'\n';
