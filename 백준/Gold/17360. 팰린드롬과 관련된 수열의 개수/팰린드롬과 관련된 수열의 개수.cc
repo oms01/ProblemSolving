@@ -32,27 +32,13 @@ int main(){
     
     ll n,m,k; cin>>n>>m>>k;
     if(n==k){
-        if(k%2){
-            cout<<fast_mul(m,(k+1)/2,MOD)<<'\n';
-        }   
-        else{
-            cout<<fast_mul(m,k/2,MOD)<<'\n';
-        }
+        cout<<fast_mul(m,(k+1)/2,MOD)<<'\n';
     }
-    else if(n>k){
-        if(k==1){
-            cout<<fast_mul(m,n,MOD)<<'\n';
-        }
-        else if(k%2){
-            cout<<m*m<<'\n';
-        }
-        else{
-            cout<<m<<'\n';
-        }
-    }
-    else{
+    else if(n<k || k==1){
         cout<<fast_mul(m,n,MOD)<<'\n';
     }
-
+    else{
+        cout<<(k%2?m*m:m)<<'\n';
+    }
 }
 
