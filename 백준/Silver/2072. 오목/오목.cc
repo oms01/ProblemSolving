@@ -20,30 +20,18 @@ int ddx[] = {-1,0,1,1};
 int ddy[] = {1,1,1,0};
 const int MX = 19;
 int board[MX+1][MX+1];
+int cnt(int x,int y,int dx,int dy){
+    int nx = x + dx;
+    int ny = y + dy;
+    if(nx<0||nx>=MX||ny<0||ny>=MX) return 0;
+    if(board[x][y]!=board[nx][ny]) return 0;
+    return cnt(nx,ny,dx,dy)+1;
+}
 bool chk(int x,int y){
-    // cout<<x<<' '<<y<<" :\n";
     rep(dir,0,4){
-        int a = 1;
-        while(1){
-            int nx = x + ddx[dir]*a;
-            int ny = y + ddy[dir]*a;
-            if(nx<0||nx>=MX||ny<0||ny>=MX) break;
-            if(board[x][y]!=board[nx][ny]) break;
-            // cout<<nx<<' '<<ny<<'\n';
-            a++;
-        }
-        int b = 1;
-        while(1){
-            int nx = x - ddx[dir]*b;
-            int ny = y - ddy[dir]*b;
-            if(nx<0||nx>=MX||ny<0||ny>=MX) break;
-            if(board[x][y]!=board[nx][ny]) break;
-            // cout<<nx<<' '<<ny<<'\n';
-            b++;
-        }
-        if(a+b==6){
-            return 1;
-        }
+        int a = cnt(x,y,ddx[dir],ddy[dir]);
+        int b = cnt(x,y,-ddx[dir],-ddy[dir]);
+        if(a+b==4) return 1;
     }
     return 0;
 }
