@@ -25,7 +25,8 @@ int main(){
     ios::sync_with_stdio(0); cin.tie(0);
     a[0] = 1;
     REP(i,1,MX){
-        a[i] = (a[i-1]*2)%MOD;
+        a[i] = a[i-1]*2;
+        if(a[i]>=MOD) a[i]-=MOD;
     }
 
     int n,k; cin>>n>>k;
@@ -35,9 +36,9 @@ int main(){
     ll ans = 0;
     for(int i=n-1;i>=0;i--){
         if(v[i]==k) continue;
-        ans = (ans + a[i])%MOD;
+        ans += a[i];
+        if(ans>=MOD) ans-=MOD;
         k = 6 - k - v[i];
     }
     cout<<ans<<'\n';
-    
 }
