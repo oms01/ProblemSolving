@@ -1,21 +1,27 @@
-#include <bits/stdc++.h>
+#include<bits/stdc++.h>
 using namespace std;
-int dp[101][100'001];
-int v[101], w[101];
-int main() {
+#define X first
+#define Y second
+#define rep(i,x,y) for(int i=x;i<y;i++)
+#define all(x) begin(x),end(x)
+#define rall(x) rbegin(x),rend(x)
+typedef long long ll;
+typedef pair<int,int> pii;
+typedef pair<ll,ll> pll;
+typedef tuple<int,int,int> tiii;
+int dx[] = {0,0,1,-1};
+int dy[] = {1,-1,0,0};
+/*----------------------*/
+
+int dp[100'001];
+int main(){
     ios::sync_with_stdio(0); cin.tie(0);
-    int n,k;
-    cin>>n>>k;
-
-    for(int i=1;i<=n;i++){
-        cin>>w[i]>>v[i];
-    }
-
-    for(int j=1;j<=k;j++){
-        for(int i=1;i<=n;i++){
-            if(j-w[i]>=0) dp[i][j] = max(dp[i-1][j], dp[i-1][j-w[i]]+v[i]);
-            else dp[i][j] = dp[i-1][j];
+    int n,k; cin>>n>>k;
+    rep(i,0,n){
+        int a,b; cin>>a>>b;
+        for(int i=k;i>=a;i--){
+            dp[i] = max(dp[i], dp[i-a]+b);
         }
     }
-    cout<<dp[n][k];
+    cout<<dp[k]<<'\n';
 }
