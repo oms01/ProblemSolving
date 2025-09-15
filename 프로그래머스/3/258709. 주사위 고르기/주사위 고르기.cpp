@@ -17,16 +17,15 @@ vector<int> solution(vector<vector<int>> dice) {
     do{
         vector<vector<int>> A,B;
         for(int i=0;i<n;i++){
-            if(p[i]) A.push_back(dice[i]);
-            else B.push_back(dice[i]);
+            p[i] ? A.push_back(dice[i]) : B.push_back(dice[i]);
         }
         
         int cnt[MX+1] = {0,};
         
-        for(int _=0;_<six[B.size()];_++){
+        for(int _=0;_<six[n/2];_++){
             int sum = 0;
             int tmp = _;
-            for(int i=0;i<B.size();i++){
+            for(int i=0;i<n/2;i++){
                 sum += B[i][tmp%6];
                 tmp/=6;
             }
@@ -34,26 +33,17 @@ vector<int> solution(vector<vector<int>> dice) {
         }
         for(int i=1;i<=MX;i++) cnt[i] += cnt[i-1];
         
-        // A가 승리할 확률이 높은???
         int vic = 0;
-        int def = 0;
-        int mu = 0;
-        for(int _=0;_<six[A.size()];_++){
+        for(int _=0;_<six[n/2];_++){
             int sum = 0;
             int tmp = _;
-            for(int i=0;i<A.size();i++){
+            for(int i=0;i<n/2;i++){
                 sum += A[i][tmp%6];
                 tmp/=6;
             }
             vic += cnt[sum-1] - cnt[0];
-            mu = cnt[sum];
-            def += cnt[MX] - cnt[sum];
         }
         
-        // cout<<vic<<' '<<mu<<' '<<def<<'\n';         
-        vector<int> tmp;
-        
-        // cout<<vic<<' ';
         if(mx < vic){
             mx = vic;
             ans.clear();
@@ -63,6 +53,5 @@ vector<int> solution(vector<vector<int>> dice) {
         }
         
     }while(next_permutation(p.begin(),p.end()));
-    // cout<<mx<<' ';
     return ans;
 }
