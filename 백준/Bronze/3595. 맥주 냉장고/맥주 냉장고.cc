@@ -23,18 +23,13 @@ int main(){
     ios::sync_with_stdio(0); cin.tie(0);
     int n; cin>>n;
     
-    vector<ti3> v;
-    
     REP(i,1,n) REP(j,1,i){
         if(i*j>n) break;
         REP(k,1,j){
             if(i*j*k>n) break;
             if(i*j*k==n){
-                v.push_back({i,j,k});
+                return !(cout<<i<<' '<<j<<' '<<k<<'\n');
             }
         }
     }
-
-    auto [a,b,c] = v[0];
-    cout<<a<<' '<<b<<' '<<c<<'\n';
 }
