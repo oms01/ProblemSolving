@@ -24,10 +24,10 @@ int arr[MX+1][MX+1];
 int main(){
     ios::sync_with_stdio(0); cin.tie(0);
     int n; cin>>n;
-    REP(i,1,n) REP(j,1,n) cin>>arr[i][j];
-
-    REP(i,1,n) REP(j,1,n) arr[i][j+1] += arr[i][j];
-    REP(j,1,n) REP(i,1,n) arr[i+1][j] += arr[i][j];
+    REP(i,1,n) REP(j,1,n){
+        cin>>arr[i][j];
+        arr[i][j] += arr[i][j-1] + arr[i-1][j] - arr[i-1][j-1];
+    }
 
     int m; cin>>m;
     while(m--){
